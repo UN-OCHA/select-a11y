@@ -72,7 +72,9 @@ class Select{
     this.wrap.addEventListener('keydown', this._handleKeyboard);
     document.addEventListener('blur', this._handleFocus, true);
 
-    this.el.form.addEventListener('reset', this._handleReset);
+    if (this.el.form) {
+      this.el.form.addEventListener('reset', this._handleReset);
+    }
   }
 
   _createButton(){
@@ -453,6 +455,10 @@ class Select{
     if(close && this.open){
       this._toggleOverlay();
     }
+
+    window.setTimeout(function (index) {
+      this.el.dispatchEvent(new CustomEvent('change', {'detail': index}));
+    }.bind(this, optionIndex), 100);
   }
 
   _updateSelectedList(){
